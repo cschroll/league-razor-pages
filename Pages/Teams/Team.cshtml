@@ -1,0 +1,63 @@
+﻿@page "{id}"
+@model TeamModel
+@{
+    ViewData["Title"] = "NFL Team - " + @Model.Team.Name;
+}
+
+<div class="jumbotron p-2">
+    <h2 class="display-4"><img src="/image/nfl/logo/@(Model.Team.TeamId).png"> @Model.Team.Location @Model.Team.Name</h2>
+</div>
+
+<div class="row pl-3 pb-3">
+    <div class="col-sm-12 col-md-7">
+        <div class="row">
+            @Model.Team.Division.ConferenceId - @Model.Team.DivisionId                     
+        </div>
+        <div class="row">
+            Record: @Model.Team.Win - @Model.Team.Loss - @Model.Team.Tie
+        </div>           
+        <hr />
+        <div class="row">
+            @Model.Team.Stadium Stadium
+        </div>
+        <div class="row">
+            Capacity: @Model.Team.Capacity
+        </div>
+        <hr />
+        <div class="row">
+           @Model.Team.Address
+        </div>
+        <div class="row">
+            @Model.Team.City, @Model.Team.State @Model.Team.Zip
+        </div>
+        <div class="row">
+            <img src="/image/nfl/stadium/@(Model.Team.TeamId).jpg">
+        </div>        
+    </div>
+    <div class="col-md-5">
+        <img class="float-right" src="/image/nfl/seating/@(Model.Team.TeamId).png">
+    </div>    
+</div>
+
+<section class="grid container">
+    <div class="d-flex bg-primary text-white p-1">
+        <div style="flex:0 0 10%">Number</div>
+        <div style="flex:0 0 25%">Name</div>
+        <div style="flex:0 0 10%">Position</div>
+        <div style="flex:0 0 20%">Experience</div>
+        <div style="flex:0 0 25%">College</div>
+        <div style="flex:0 0 10%">Depth</div>
+    </div>
+
+    @foreach (var player in Model.Team.Players.OrderBy(p => p.Number))
+    {
+        <a class="@(player.Depth == 1 ? "d-flex p-1 font-weight-bold" : "d-flex p-1")" asp-page="/Players/Player" asp-route-id="@player.PlayerId">
+            <div style="flex:0 0 10%">@player.Number</div>
+            <div style="flex:0 0 25%">@player.Name</div>
+            <div style="flex:0 0 10%">@player.Position</div>
+            <div style="flex:0 0 20%">@player.Experience</div>
+            <div style="flex:0 0 25%">@player.College</div>
+            <div style="flex:0 0 10%">@player.Depth</div>
+        </a>
+    }
+</section>
